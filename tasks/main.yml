@@ -14,13 +14,13 @@
   command: "terraform plan -no-color"
   args:
     chdir: "{{ playbook_dir }}/env/{{ envname }}"
-  when: terraform_apply != true
+  # when: terraform_apply != true
   register: tf_output
 
 - name: Terraform output
   debug:
     var: tf_output.stdout_lines
-  when: terraform_apply != true
+  # when: terraform_apply != true
 
 - name: Terraform apply
   command: "terraform apply -auto-approve -no-color"
