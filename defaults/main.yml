@@ -1,3 +1,5 @@
 ---
 
-terraform_apply: false
+terraform_task_init: false
+terraform_task_plan: false
+terraform_task_apply: false

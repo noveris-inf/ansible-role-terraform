@@ -1,0 +1,11 @@
+---
+
+- name: Terraform apply
+  command: "terraform apply -no-color {% if terraform_plan_file is defined %} {{ terraform_plan_file }} {% endif %}"
+  args:
+    chdir: "{{ terraform_root_dir }}"
+  register: tf_output
+
+- name: Terraform apply output
+  debug:
+    var: tf_output.stdout_lines

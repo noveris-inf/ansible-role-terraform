@@ -1,0 +1,11 @@
+---
+
+- name: Terraform plan
+  command: "terraform plan -no-color {% if terraform_plan_file is defined %} -out {{ terraform_plan_file }} {% endif %}"
+  args:
+    chdir: "{{ terraform_root_dir }}"
+  register: tf_output
+
+- name: Terraform plan output
+  debug:
+    var: tf_output.stdout_lines
