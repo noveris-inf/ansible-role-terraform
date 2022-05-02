@@ -1,35 +1,21 @@
 ---
 
-- name: Terraform init
-  command: "terraform init -no-color"
-  args:
-    chdir: "{{ playbook_dir }}/env/{{ envname }}"
-  register: tf_output
+# Incoming variables
+#   - terraform_root_dir
+#   - terraform_task_init
+#   - terraform_task_plan
+#   - terraform_task_apply
+#   - terraform_plan_file (optional)
+#   - terraform_backend_config_file (optional)
 
-- name: Terraform init output
-  debug:
-    var: tf_output.stdout_lines
+- name: Terraform init
+  when: terraform_task_init == true
+  include_tasks: terraform_init.yml
 
 - name: Terraform plan
-  command: "terraform plan -no-color"
-  args:
-    chdir: "{{ playbook_dir }}/env/{{ envname }}"
-  # when: terraform_apply != true
-  register: tf_output
-
-- name: Terraform output
-  debug:
-    var: tf_output.stdout_lines
-  # when: terraform_apply != true
+  when: terraform_task_plan == true
+  include_tasks: terraform_plan.yml
 
 - name: Terraform apply
-  command: "terraform apply -auto-approve -no-color"
-  args:
-    chdir: "{{ playbook_dir }}/env/{{ envname }}"
-  when: terraform_apply == true
-  register: tf_output
-
-- name: Terraform output
-  debug:
-    var: tf_output.stdout_lines
-  when: terraform_apply == true
+  when: terraform_task_apply == true
+  include_tasks: terraform_apply.yml
