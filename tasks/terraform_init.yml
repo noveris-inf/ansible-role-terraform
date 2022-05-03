@@ -1,7 +1,9 @@
 ---
 
 - name: Terraform init
-  command: "terraform init -no-color {% if terraform_backend_config_file is defined %} --backend-config={{ terraform_backend_config_file }} {% endif %}"
+  command: >
+    terraform init -no-color {% if terraform_backend_config_file is defined %} --backend-config={{ terraform_backend_config_file }} {% endif %}
+    {% if terraform_init_reconfigure %} -reconfigure {% endif %}
   args:
     chdir: "{{ terraform_root_dir }}"
   register: tf_output

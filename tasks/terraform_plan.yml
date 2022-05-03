@@ -1,7 +1,10 @@
 ---
 
 - name: Terraform plan
-  command: "terraform plan -no-color {% if terraform_plan_file is defined %} -out {{ terraform_plan_file }} {% endif %}"
+  command: >
+    terraform plan -no-color {% if terraform_plan_file is defined %} -out {{ terraform_plan_file }} {% endif %}
+    {% if terraform_vars_files is defined and terraform_vars_files %}{% for filename in terraform_vars_files %}
+    -var-file={{ filename }} {% endfor %}{% endif %}
   args:
     chdir: "{{ terraform_root_dir }}"
   register: tf_output

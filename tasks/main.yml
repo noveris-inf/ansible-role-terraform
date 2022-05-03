@@ -7,6 +7,8 @@
 #   - terraform_task_apply
 #   - terraform_plan_file (optional)
 #   - terraform_backend_config_file (optional)
+#   - terraform_vars_files (optional)
+#   - terraform_init_reconfigure (optional)
 
 - name: Terraform init
   when: terraform_task_init == true
