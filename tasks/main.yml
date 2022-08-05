@@ -11,13 +11,13 @@
 #   - terraform_init_reconfigure (optional)
 
 - name: Terraform init
-  when: terraform_task_init == true
+  when: terraform_task_init
   include_tasks: terraform_init.yml
 
 - name: Terraform plan
-  when: terraform_task_plan == true
+  when: terraform_task_plan
   include_tasks: terraform_plan.yml
 
 - name: Terraform apply
-  when: terraform_task_apply == true
+  when: terraform_task_apply
   include_tasks: terraform_apply.yml
