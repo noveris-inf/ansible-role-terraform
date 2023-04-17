@@ -1,13 +1,25 @@
 ---
 
-- name: Terraform init
-  command: >
-    terraform init -no-color {% if terraform_backend_config_file is defined %} --backend-config={{ terraform_backend_config_file }} {% endif %}
-    {% if terraform_init_reconfigure %} -reconfigure {% endif %}
-  args:
-    chdir: "{{ terraform_root_dir }}"
-  register: tf_output
-
-- name: Terraform init output
-  debug:
-    var: tf_output.stdout_lines
+- block:
+    - name: "Run Terraform Init"
+      docker_container:
+        # The name isn't important, but required by the module. Included the epoch to reduce chance
+        # of concurrent runs conflicting on the name.
+        name: "terraform_init_{{ ansible_date_time.epoch }}"
+        image: "{{ terraform_docker_image }}"
+        detach: false
+        # use the effective user id to make working with volume mounts and permissions easier
+        user: "{{ ansible_effective_user_id }}"
+        state: started
+        cleanup: true
+        entrypoint: "/bin/sh"
+        command: >
+          -c 'cd "/work/" && terraform init -no-color {% if terraform_backend_config_file is defined %} --backend-config={{ terraform_backend_config_file }} {% endif %}
+          {% if terraform_init_reconfigure %} -reconfigure {% endif %}'
+        volumes: "{{ [ terraform_root_dir + ':/work' ] + terraform_volume_mounts }}"
+        env: "{{ terraform_env_vars | combine({ 'HOME': '/work' }) }}"
+      register: tf_output
+  always:
+    - name: Terraform init output
+      debug:
+        msg: "{{ tf_output.container.Output.split('\n') }}"

@@ -1,7 +1,18 @@
 ---
 
+# Tasks for the terraform role to perform
 terraform_task_init: false
 terraform_task_plan: false
 terraform_task_apply: false
 
 terraform_init_reconfigure: true
+
+# Default docker image to use for terraform
+terraform_docker_image: "hashicorp/terraform:1.3.3"
+
+# Additional environment variables for the docker container used to run the terraform actions
+# Note: HOME is overridden by the role, regardless of what is provided in terraform_env_vars
+terraform_env_vars: {}
+
+# Additional volume mounts for the docker container used to run the terraform actions
+terraform_volume_mounts: []
