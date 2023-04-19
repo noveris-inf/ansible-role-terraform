@@ -22,4 +22,4 @@
   always:
     - name: Terraform init output
       debug:
-        msg: "{{ tf_output.container.Output.split('\n') }}"
+        msg: "{{ tf_output.container.Output.split('\n')|default(tf_output) }}"
