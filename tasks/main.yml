@@ -25,6 +25,7 @@
 
 # Extract values from the terraform component
 - name: "Extract Values"
+  when: terraform_task_extract|default(false)
   include_tasks: terraform_extract.yml
   loop: "{{ terraform_extract_map | dict2items }}"
   loop_control:

@@ -4,6 +4,7 @@
 terraform_task_init: false
 terraform_task_plan: false
 terraform_task_apply: false
+terraform_task_extract: false
 
 terraform_init_reconfigure: true
 
