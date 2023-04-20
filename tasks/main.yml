@@ -9,7 +9,7 @@
 #   - terraform_backend_config_file (optional)
 #   - terraform_vars_files (optional)
 #   - terraform_init_reconfigure (optional)
-#   - terraform_output_map (optional)
+#   - terraform_extract_map (optional)
 
 - name: Terraform init
   when: terraform_task_init
