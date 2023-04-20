@@ -18,8 +18,8 @@
           {% if terraform_init_reconfigure %} -reconfigure {% endif %}'
         volumes: "{{ [ terraform_root_dir + ':/work' ] + terraform_volume_mounts }}"
         env: "{{ terraform_env_vars | combine({ 'HOME': '/work' }) }}"
-      register: tf_output
+      register: terraform_register_init
   always:
     - name: Terraform init output
       debug:
-        msg: "{{ tf_output.container.Output.split('\n')|default(tf_output) }}"
+        msg: "{{ terraform_register_init.container.Output.split('\n') }}"

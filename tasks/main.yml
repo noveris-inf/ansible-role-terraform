@@ -9,6 +9,7 @@
 #   - terraform_backend_config_file (optional)
 #   - terraform_vars_files (optional)
 #   - terraform_init_reconfigure (optional)
+#   - terraform_output_map (optional)
 
 - name: Terraform init
   when: terraform_task_init
@@ -21,3 +22,10 @@
 - name: Terraform apply
   when: terraform_task_apply
   include_tasks: terraform_apply.yml
+
+# Extract values from the terraform component
+- name: "Extract Values"
+  include_tasks: terraform_extract.yml
+  loop: "{{ terraform_extract_map | dict2items }}"
+  loop_control:
+    loop_var: "extract_map_item"

@@ -16,3 +16,6 @@ terraform_env_vars: {}
 
 # Additional volume mounts for the docker container used to run the terraform actions
 terraform_volume_mounts: []
+
+# Map of values to extract from terraform
+terraform_extract_map: {}
